@@ -32,7 +32,7 @@ function Header({ onOpenSidebar }) {
 
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/85 px-4 py-3 backdrop-blur-xl sm:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-3 sm:items-center">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -49,7 +49,7 @@ function Header({ onOpenSidebar }) {
           </div>
         </div>
 
-        <div className="ml-auto flex items-center gap-2 sm:gap-3">
+        <div className="flex w-full items-center justify-between gap-2 sm:ml-auto sm:w-auto sm:justify-end sm:gap-3">
           <div className="hidden rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-700 sm:block">
             <p className="font-semibold">
               {lockedFeaturesByPlan[plan] === 0
@@ -58,7 +58,7 @@ function Header({ onOpenSidebar }) {
             </p>
           </div>
 
-          <PlanBadge plan={plan} className="hidden sm:inline-flex" />
+          <PlanBadge plan={plan} className="hidden md:inline-flex" />
 
           <div className="relative">
             <Sparkles
@@ -68,7 +68,7 @@ function Header({ onOpenSidebar }) {
             <select
               value={plan}
               onChange={(event) => switchPlan(event.target.value)}
-              className="appearance-none rounded-xl border border-slate-300 bg-white py-2 pl-8 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full min-w-[10rem] appearance-none rounded-xl border border-slate-300 bg-white py-2 pl-8 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 sm:w-auto"
               aria-label="Switch package plan"
             >
               {planOptions.map((option) => (

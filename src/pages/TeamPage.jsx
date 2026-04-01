@@ -27,7 +27,32 @@ function TeamPage() {
           </div>
         </div>
 
-        <div className="mt-4 overflow-x-auto soft-scrollbar">
+        <div className="mt-4 space-y-3 lg:hidden">
+          {staffMembers.map((member) => (
+            <article key={member.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-semibold text-slate-800">{member.name}</p>
+                  <p className="text-xs text-slate-500">{member.role}</p>
+                </div>
+                <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                  {member.status}
+                </span>
+              </div>
+
+              <div className="mt-3 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                <p>
+                  <span className="font-semibold text-slate-700">Department:</span> {member.department}
+                </p>
+                <p>
+                  <span className="font-semibold text-slate-700">Current Load:</span> {member.load}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
           <table className="min-w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">

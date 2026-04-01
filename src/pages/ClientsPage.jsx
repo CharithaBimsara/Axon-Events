@@ -52,7 +52,47 @@ function ClientsPage() {
           </LockedButton>
         </div>
 
-        <div className="mt-4 overflow-x-auto soft-scrollbar">
+        <div className="mt-4 space-y-3 lg:hidden">
+          {clients.map((client) => (
+            <article key={client.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedClientId(client.id)}
+                  className="text-left"
+                >
+                  <p className="font-semibold text-slate-800">{client.name}</p>
+                  <p className="text-xs text-slate-500">{client.eventType} • {client.tier}</p>
+                </button>
+                <p className="text-sm font-semibold text-slate-800">{formatCurrency(client.balanceDue)}</p>
+              </div>
+
+              <div className="mt-3 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                <p>{client.phone}</p>
+                <p className="break-all">{client.email}</p>
+                <p className="sm:col-span-2">
+                  <span className="font-semibold text-slate-700">Next:</span> {client.nextMilestone}
+                </p>
+              </div>
+
+              <LockedButton
+                requiredPlan="advanced"
+                icon="👑"
+                feature="Accept Online Credit Card Payments"
+                benefit="Allow clients to pay securely online and instantly sync payment records in your dashboard."
+                onClick={() => acceptOnlinePayment(client.name)}
+                className="mt-3 w-full px-3 py-2 text-xs"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <CreditCard size={14} />
+                  Accept Online Payment
+                </span>
+              </LockedButton>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
           <table className="min-w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">

@@ -109,7 +109,32 @@ function DashboardPage() {
             </div>
           </div>
 
-          <div className="mt-4 overflow-x-auto soft-scrollbar">
+          <div className="mt-4 space-y-3 lg:hidden">
+            {upcomingEvents.map((event) => (
+              <article key={event.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-slate-800">{event.name}</p>
+                    <p className="text-xs text-slate-500">{event.type}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                    {event.status}
+                  </span>
+                </div>
+                <div className="mt-3 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                  <p>
+                    <span className="font-semibold text-slate-700">Date:</span> {formatDate(event.date)}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-slate-700">Venue:</span> {event.venue}
+                  </p>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-slate-800">Budget: {formatCurrency(event.budget)}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
             <table className="min-w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">

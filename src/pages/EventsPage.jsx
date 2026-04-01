@@ -490,21 +490,21 @@ function EventsPage() {
                         </span>
                       </div>
 
-                      <div className="flex w-full max-w-64 items-center justify-end gap-2">
-                        <div className="relative">
+                      <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:w-auto sm:flex-nowrap sm:justify-end">
+                        <div className="relative w-full sm:w-auto">
                           <button
                             type="button"
                             onClick={() =>
                               setAssignmentMenuTaskId((current) => (current === task.id ? null : task.id))
                             }
-                            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-indigo-300 hover:text-indigo-600"
+                            className="inline-flex w-full items-center justify-between gap-2 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-indigo-300 hover:text-indigo-600 sm:w-auto"
                           >
                             {task.assignedStaff ? (
                               <>
                                 <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${task.assignedStaff.tone}`}>
                                   {task.assignedStaff.initials}
                                 </span>
-                                <span>{task.assignedStaff.name}</span>
+                                <span className="max-w-[9rem] truncate text-left sm:max-w-none">{task.assignedStaff.name}</span>
                               </>
                             ) : (
                               <>
@@ -518,7 +518,7 @@ function EventsPage() {
                           </button>
 
                           {assignmentMenuTaskId === task.id ? (
-                            <div className="absolute right-0 z-20 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+                            <div className="absolute left-0 z-20 mt-2 w-full rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:left-auto sm:right-0 sm:w-64">
                               <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                                 Assign Staff
                               </p>
@@ -550,7 +550,7 @@ function EventsPage() {
                           ) : null}
                         </div>
 
-                        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                        <div className="flex items-center gap-1 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
                           <button
                             type="button"
                             onClick={() => startEditingTask(task)}
@@ -841,17 +841,17 @@ function EventsPage() {
                 />
               </label>
 
-              <div className="md:col-span-2 mt-2 flex flex-wrap justify-end gap-2">
+              <div className="mt-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end md:col-span-2">
                 <button
                   type="button"
                   onClick={cancelCreateEvent}
-                  className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                  className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-700"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-700 sm:w-auto"
                 >
                   <Plus size={16} />
                   Create Event
@@ -890,7 +890,63 @@ function EventsPage() {
               </div>
             </div>
 
-            <div className="mt-4 overflow-x-auto soft-scrollbar">
+            <div className="mt-4 space-y-3 lg:hidden">
+              {eventList.map((eventItem) => {
+                const progress = Math.round((eventItem.spent / eventItem.budget) * 100);
+
+                return (
+                  <article
+                    key={eventItem.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => openEventDetail(eventItem.id)}
+                    onKeyDown={(keyEvent) => {
+                      if (keyEvent.key === 'Enter' || keyEvent.key === ' ') {
+                        keyEvent.preventDefault();
+                        openEventDetail(eventItem.id);
+                      }
+                    }}
+                    className="cursor-pointer rounded-xl border border-slate-200 bg-slate-50 p-4 transition hover:border-indigo-200 hover:bg-indigo-50/40"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="font-semibold text-slate-800">{eventItem.name}</p>
+                        <p className="text-xs text-slate-500">{eventItem.type} • {eventItem.venue}</p>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600">
+                        Open
+                        <ArrowRight size={14} />
+                      </span>
+                    </div>
+
+                    <div className="mt-3 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                      <p>
+                        <span className="font-semibold text-slate-700">Date:</span> {formatDate(eventItem.date)}
+                      </p>
+                      <p>
+                        <span className="font-semibold text-slate-700">Manager:</span> {eventItem.manager}
+                      </p>
+                    </div>
+
+                    <div className="mt-3">
+                      <div className="mb-1 flex justify-between text-xs font-medium text-slate-500">
+                        <span>Progress</span>
+                        <span>{progress}%</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-slate-200">
+                        <div className="h-full rounded-full bg-indigo-500" style={{ width: `${progress}%` }} />
+                      </div>
+                    </div>
+
+                    <p className="mt-3 text-sm font-semibold text-slate-800">
+                      {formatCurrency(eventItem.spent)} / {formatCurrency(eventItem.budget)}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
               <table className="min-w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">

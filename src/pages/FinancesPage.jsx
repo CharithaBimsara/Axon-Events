@@ -77,13 +77,72 @@ function FinancesPage() {
             icon="🔒"
             feature="Auto-Calculate Margins & Tax"
             benefit="Automatically calculate gross margin, tax, and net profitability for every event portfolio."
+            className="w-full sm:w-auto"
             onClick={runAutoCalculation}
           >
             Auto-Calculate Margins & Tax
           </LockedButton>
         </div>
 
-        <div className="mt-4 overflow-x-auto soft-scrollbar">
+        <div className="mt-4 space-y-3 lg:hidden">
+          {rows.map((row) => (
+            <article key={row.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-slate-800">{row.eventName}</p>
+
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <label className="space-y-1.5 text-sm font-medium text-slate-600">
+                  <span>Income</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={row.income}
+                    onChange={(event) =>
+                      setRows((current) =>
+                        current.map((item) =>
+                          item.id === row.id
+                            ? {
+                                ...item,
+                                income: event.target.value,
+                              }
+                            : item,
+                        ),
+                      )
+                    }
+                    className="w-full rounded-lg border border-slate-300 px-2 py-2 text-right font-semibold text-slate-700 focus:border-indigo-500 focus:outline-none"
+                  />
+                </label>
+
+                <label className="space-y-1.5 text-sm font-medium text-slate-600">
+                  <span>Expense</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={row.expense}
+                    onChange={(event) =>
+                      setRows((current) =>
+                        current.map((item) =>
+                          item.id === row.id
+                            ? {
+                                ...item,
+                                expense: event.target.value,
+                              }
+                            : item,
+                        ),
+                      )
+                    }
+                    className="w-full rounded-lg border border-slate-300 px-2 py-2 text-right font-semibold text-slate-700 focus:border-indigo-500 focus:outline-none"
+                  />
+                </label>
+              </div>
+
+              <p className="mt-3 text-sm font-semibold text-slate-800">
+                Manual Gross: {formatCurrency(Number(row.income || 0) - Number(row.expense || 0))}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
           <table className="min-w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
@@ -181,30 +240,47 @@ function FinancesPage() {
           </div>
 
           {canAccess('intermediate') ? (
-            <div className="overflow-x-auto soft-scrollbar">
-              <table className="min-w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
-                    <th className="px-2 py-2">Invoice</th>
-                    <th className="px-2 py-2">Client</th>
-                    <th className="px-2 py-2 text-right">Amount</th>
-                    <th className="px-2 py-2 text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {invoiceRows.map((invoice) => (
-                    <tr key={invoice.id} className="border-b border-slate-100 hover:bg-slate-50">
-                      <td className="px-2 py-2 font-semibold text-slate-700">{invoice.id}</td>
-                      <td className="px-2 py-2 text-slate-600">{invoice.client}</td>
-                      <td className="px-2 py-2 text-right font-semibold text-slate-700">
-                        {formatCurrency(invoice.amount)}
-                      </td>
-                      <td className="px-2 py-2 text-right text-xs font-semibold text-blue-700">{invoice.status}</td>
+            <>
+              <div className="space-y-3 lg:hidden">
+                {invoiceRows.map((invoice) => (
+                  <article key={invoice.id} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-slate-700">{invoice.id}</p>
+                        <p className="text-sm text-slate-600">{invoice.client}</p>
+                      </div>
+                      <p className="text-sm font-semibold text-slate-800">{formatCurrency(invoice.amount)}</p>
+                    </div>
+                    <p className="mt-2 text-xs font-semibold text-blue-700">{invoice.status}</p>
+                  </article>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto soft-scrollbar lg:block">
+                <table className="min-w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+                      <th className="px-2 py-2">Invoice</th>
+                      <th className="px-2 py-2">Client</th>
+                      <th className="px-2 py-2 text-right">Amount</th>
+                      <th className="px-2 py-2 text-right">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {invoiceRows.map((invoice) => (
+                      <tr key={invoice.id} className="border-b border-slate-100 hover:bg-slate-50">
+                        <td className="px-2 py-2 font-semibold text-slate-700">{invoice.id}</td>
+                        <td className="px-2 py-2 text-slate-600">{invoice.client}</td>
+                        <td className="px-2 py-2 text-right font-semibold text-slate-700">
+                          {formatCurrency(invoice.amount)}
+                        </td>
+                        <td className="px-2 py-2 text-right text-xs font-semibold text-blue-700">{invoice.status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4">
               <p className="text-sm text-slate-600">

@@ -49,15 +49,14 @@ function Sidebar({ isOpen, onClose }) {
       />
 
       <aside
-        className={`fixed left-0 top-0 z-40 flex h-full w-72 flex-col border-r border-slate-200 bg-white/90 p-5 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 z-40 flex h-full w-[84vw] max-w-72 flex-col border-r border-slate-200 bg-white/90 p-4 shadow-2xl backdrop-blur-xl transition-transform duration-300 sm:p-5 lg:w-72 lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex items-start justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Axon Events</p>
-            <h1 className="mt-2 text-xl font-extrabold text-slate-900">
-                Demo</h1>
+            <h1 className="mt-2 text-xl font-extrabold text-slate-900">Demo</h1>
           </div>
           <button
             type="button"
@@ -69,7 +68,7 @@ function Sidebar({ isOpen, onClose }) {
           </button>
         </div>
 
-        <nav className="mt-8 space-y-1.5">
+        <nav className="mt-6 space-y-1.5 sm:mt-8">
           {navItems.map((item) => {
             const Icon = item.icon;
 

@@ -41,6 +41,7 @@ function VendorsPage() {
               icon="🔒"
               feature="Send Bulk Invoice Reminders"
               benefit="Automatically remind all vendors about due invoices to protect event cash flow."
+              className="w-full sm:w-auto"
               onClick={sendBulkReminders}
             >
               Send Bulk Invoice Reminders
@@ -51,6 +52,7 @@ function VendorsPage() {
               icon="👑"
               feature="Generate Vendor Login Portal"
               benefit="Enable vendors to self-manage uploads, status updates, and invoice submissions in one secure portal."
+              className="w-full sm:w-auto"
               onClick={generateVendorPortal}
             >
               Generate Vendor Login Portal
@@ -58,7 +60,36 @@ function VendorsPage() {
           </div>
         </div>
 
-        <div className="mt-4 overflow-x-auto soft-scrollbar">
+        <div className="mt-4 space-y-3 lg:hidden">
+          {vendors.map((vendor) => (
+            <article key={vendor.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-semibold text-slate-800">{vendor.name}</p>
+                  <p className="text-xs text-slate-500">{vendor.category} • {vendor.priceBand} band</p>
+                </div>
+                <p className="text-sm font-semibold text-slate-700">{vendor.unpaidInvoices}</p>
+              </div>
+
+              <p className="mt-2 text-sm text-slate-600">{vendor.contact}</p>
+
+              <div className="mt-3">
+                <div className="mb-1 flex items-center justify-between text-xs text-slate-500">
+                  <span>Reliability Score</span>
+                  <span>{vendor.reliabilityScore}%</span>
+                </div>
+                <div className="h-2 rounded-full bg-slate-200">
+                  <div
+                    className="h-full rounded-full bg-emerald-500"
+                    style={{ width: `${vendor.reliabilityScore}%` }}
+                  />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-4 hidden overflow-x-auto soft-scrollbar lg:block">
           <table className="min-w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
