@@ -177,10 +177,7 @@ function DashboardPage() {
             <div className="rounded-2xl bg-emerald-100 p-2 text-emerald-700">
               <BarChart3 size={18} />
             </div>
-            <div>
-              <h3 className="text-base font-extrabold text-slate-900">Demo Storyline</h3>
-              <p className="text-sm text-slate-500">Use this script while presenting to the client.</p>
-            </div>
+            
           </div>
 
           <div className="mt-4 space-y-3 text-sm text-slate-600">
