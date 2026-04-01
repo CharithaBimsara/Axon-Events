@@ -1,4 +1,4 @@
-import { BarChart3, BrainCircuit, CalendarClock, TrendingUp, Wallet } from 'lucide-react';
+import { BrainCircuit, CalendarClock, TrendingUp, Wallet } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
@@ -100,8 +100,8 @@ function DashboardPage() {
         })}
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-3">
-        <article className="xl:col-span-2 rounded-2xl border border-slate-200 bg-white p-5 shadow-panel">
+      <section>
+        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-lg font-extrabold text-slate-900">Upcoming Event Flow</h3>
@@ -169,27 +169,6 @@ function DashboardPage() {
                 ))}
               </tbody>
             </table>
-          </div>
-        </article>
-
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel">
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-emerald-100 p-2 text-emerald-700">
-              <BarChart3 size={18} />
-            </div>
-            
-          </div>
-
-          <div className="mt-4 space-y-3 text-sm text-slate-600">
-            <p className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-              Start in <strong>Basic</strong>: show central event dashboard and manual control.
-            </p>
-            <p className="rounded-xl border border-slate-200 bg-blue-50 p-3">
-              Switch to <strong>Intermediate</strong>: unlock automation and financial reporting.
-            </p>
-            <p className="rounded-xl border border-slate-200 bg-emerald-50 p-3">
-              Land on <strong>Advanced</strong>: reveal AI insights and premium experience.
-            </p>
           </div>
         </article>
       </section>
